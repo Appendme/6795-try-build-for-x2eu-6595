@@ -38,6 +38,9 @@
 #include <linux/i2c.h>
 #include <mach/mt_boot.h>
 #include <mach/eint.h>
+/* lenovo-sw fuxm1 2015-02-12  add for gpio remap in DT begain */
+#include <mach/mt_gpio.h>
+/* lenovo-sw fuxm1 2015-02-12  add for gpio remap in DT end */
 
 /*****************************************************************************
  *                     C O M P I L E R   F L A G S

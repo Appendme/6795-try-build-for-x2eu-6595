@@ -86,9 +86,24 @@ static char ReadBuffer[RW_BUFFER_LENGTH];
 static u8 *TfaI2CDMABuf_va = NULL;
 static u32 TfaI2CDMABuf_pa = NULL;
 
-extern mt_set_gpio_mode(int pin , int mode);
-extern mt_set_gpio_dir(int pin , int mode);
-extern mt_set_gpio_out(int pin , int mode);
+/*lenovo-sw fuxm1 2015-02-12 mark for compile error begain*/
+//extern mt_set_gpio_mode(int pin , int mode);
+//extern mt_set_gpio_dir(int pin , int mode);
+//extern mt_set_gpio_out(int pin , int mode);
+/*lenovo-sw fuxm1 2015-02-12 mark for compile error end*/
+
+/***********lenovo-sw fuxm1 2015-02-13 marked for gpio DT mapping begain*************/
+ /*           MTKSMARTPA@0x11220000 {
+  *                    compatible = "mediatek,mtksmartpa";
+  *                    aud_ext_dacrst_gpio = <130 1>;  //smartpa reset pin 
+  *                    aud_ext_hpen_gpio = <175 1>;    //smartpa LDO pin modify to use gpio supply 1.8v for more pure power source
+  *                    nxpws_gpio = <192 1>;           //smartpa i2s WS/LR pin provide clock for left/ringt sound channel
+  *                    nxpclk_gpio = <193 1>;          //smartpa bitclock pin for 44.1k/16k/8k 
+  *                    nxpdatai_gpio = <196 1>;        //smartpa i2s data input 
+  *                    nxpdatao_gpio = <195 1>;        // smartpa i2s datao for feedback none polit sound to modem AEC with echo cancllation
+  *          }
+ */
+/***********lenovo-sw fuxm1 2015-02-13 marked for gpio DT mapping begain*************/
 
 #ifdef CONFIG_OF
 static unsigned int pin_ext_dac_rst, pin_ext_hp_en, pin_nxpspk_lrck, pin_nxpspk_bck, pin_nxpspk_datai, pin_nxpspk_datao;
@@ -175,7 +190,10 @@ static int smartpa_parse_gpio(void)
 
 /* new I2C register method */
 static const struct i2c_device_id nxpExt_i2c_id[] = { {NXPEXTSPK_I2C_DEVNAME, 0}, {} };
-static struct i2c_board_info __initdata  nxpExt_dev ={ I2C_BOARD_INFO(NXPEXTSPK_I2C_DEVNAME, 0x36) };
+
+/* lenovo-sw fuxm1 2015-02-12 modify for smartpa use 0x34 for i2c slave address begain*/
+static struct i2c_board_info __initdata  nxpExt_dev ={ I2C_BOARD_INFO(NXPEXTSPK_I2C_DEVNAME,  (ECODEC_SLAVE_ADDR_WRITE >> 1)) };
+/* lenovo-sw fuxm1 2015-02-12 modify for smartpa use 0x34 for i2c slave address end */
 
 /* function declration */
 static int NXPExtSpk_i2c_probe(struct i2c_client *client, const struct i2c_device_id *id);
@@ -221,7 +239,8 @@ static int NXPExtSpk_i2c_probe(struct i2c_client *client, const struct i2c_devic
     new_client = client;
     new_client->timing = 400;
     printk("NXPExtSpk_i2c_probe \n");
-#ifdef CONFIG_MTK_NXP_TFA9890
+/*lenovo-sw fuxm1 2014-08-12 modify for cover ESD issue we discard smartpa reset pin begain*/	
+#if 0 //#ifdef CONFIG_MTK_NXP_TFA9890
     mt_set_gpio_mode(GPIO_AUD_EXTDAC_RST_PIN/*GPIO130*/, GPIO_MODE_00);
     mt_set_gpio_out(GPIO_AUD_EXTDAC_RST_PIN/*GPIO130*/, GPIO_OUT_ZERO);
     msleep(2);
@@ -230,6 +249,7 @@ static int NXPExtSpk_i2c_probe(struct i2c_client *client, const struct i2c_devic
     mt_set_gpio_out(GPIO_AUD_EXTDAC_RST_PIN/*GPIO130*/, GPIO_OUT_ZERO);
     msleep(10);
 #endif
+/*lenovo-sw fuxm1 2014-08-12 modify for cover ESD issue we discard smartpa reset pin end*/
 
 TfaI2CDMABuf_va = (u8 *)dma_alloc_coherent(NULL, 4096, &TfaI2CDMABuf_pa, GFP_KERNEL);
 	if(!TfaI2CDMABuf_va)
