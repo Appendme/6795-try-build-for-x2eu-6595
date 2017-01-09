@@ -143,6 +143,8 @@ extern LCM_DRIVER nt35595_fhd_dsi_cmd_truly_nt50358_wvga_lcm_drv;
 extern LCM_DRIVER nt35595_fhd_dsi_cmd_truly_tps65132_720p_lcm_drv;
 extern LCM_DRIVER nt35595_fhd_dsi_cmd_truly_nt50358_6735_lcm_drv;
 extern LCM_DRIVER nt35595_fhd_dsi_cmd_truly_nt50358_6735_720p_lcm_drv;
+extern LCM_DRIVER nt35595_fhd_dsi_vdo_lg_lcm_drv;//X2
+extern LCM_DRIVER otm1902a_fhd_dsi_cmd_tianma_lcm_drv;//X2
 extern LCM_DRIVER nt35596_fhd_dsi_vdo_yassy_lcm_drv;
 extern LCM_DRIVER nt35596_hd720_dsi_vdo_truly_tps65132_lcm_drv;
 extern LCM_DRIVER nt35590_hd720_dsi_cmd_truly2_lcm_drv;
@@ -1069,6 +1071,14 @@ LCM_DRIVER* lcm_driver_list[] =
 
 #if defined(ST7789H2_DBI)
 	&st7789h2_dbi_lcm_drv,
+#endif
+
+#if defined(NT35595_FHD_DSI_VDO_LG)
+	&nt35595_fhd_dsi_vdo_lg_lcm_drv,
+#endif
+
+#if defined(OTM1902A_FHD_DSI_CMD_TIANMA)
+    &otm1902a_fhd_dsi_cmd_tianma_lcm_drv,
 #endif
 };
 
