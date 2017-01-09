@@ -67,6 +67,13 @@ endif
 
 obj-$(CONFIG_MTK_WFD_SUPPORT)  += uibc/
 
+# gator driver is platform-independent
+ifeq ($(CONFIG_GATOR_DRIVER),y)
+ ifneq ($(wildcard $(srctree)/$(src)/gator-driver/),)
+  obj-$(CONFIG_GATOR_DRIVER) += gator-driver/
+ endif # gator-driver folder exist
+endif  # COFNIG_GATOR_DRIVER is set
+
 ifneq ($(wildcard $(srctree)/$(src)/met/),)
  
 endif
@@ -137,10 +144,14 @@ obj-y	+= glance_gesture_sensor/
 endif
 endif
 endif
-
 #obj-y	+= matv/
 #obj-y	+= touchpanel/
 # 
+
+#For Cywee Sensonrs
+ifeq ($(CONFIG_CUSTOM_KERNEL_SENSORHUB_CYWEE),y)
+obj-y	+= CwMcuSensor/
+endif
 
 obj-$(CONFIG_MTK_VOW_SUPPORT)	+= vow/
 
@@ -283,7 +294,6 @@ obj-$(CONFIG_PWR_LOSS_MTK_TEST) += power-loss-test/
 
 endif           # end of CONFIG_ARCH_MT6735
 endif		# end of CONFIG_ARCH_MT6795
-endif       # end of CONFIG_ARCH_MT6580
 
 ifeq (,$(filter $(CONFIG_MTK_PLATFORM), "mt8163"))
 obj-n   +=  irrx/
@@ -297,12 +307,6 @@ ifneq (,$(filter $(CONFIG_MTK_PLATFORM), "mt6735"))
 obj-y += gcpu/
 endif
 
-# gator driver is platform-independent
-ifeq ($(CONFIG_GATOR_DRIVER),y)
- ifneq ($(wildcard $(srctree)/$(src)/gator-driver/),)
-  obj-$(CONFIG_GATOR_DRIVER) += gator-driver/
- endif # gator-driver folder exist
-endif  # COFNIG_GATOR_DRIVER is set
 
 obj-$(CONFIG_MTK_MULTIBRIDGE_SUPPORT) += multibridge/mt8193/
 
@@ -310,10 +314,3 @@ obj-$(CONFIG_MTK_MULTIBRIDGE_SUPPORT) += multibridge/mt8193/
 #Classic DRM
 $(info "CONFIG_TRUSTONIC_TEE_SUPPORT = $(CONFIG_TRUSTONIC_TEE_SUPPORT)")
 obj-$(CONFIG_TRUSTONIC_TEE_SUPPORT) += secwidevine/
-
-ifneq (,$(filter $(CONFIG_MTK_PLATFORM), "mt2601"))
-ifneq ($(CONFIG_CUSTOM_KERNEL_SENSORHUB),"")
-obj-y	+= sensorHub/
-endif
-endif
-
