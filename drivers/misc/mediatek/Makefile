@@ -10,11 +10,6 @@ ifneq (,$(filter $(CONFIG_ARCH_MT6735) $(CONFIG_ARCH_MT6735M) $(CONFIG_ARCH_MT67
 include $(srctree)/drivers/misc/mediatek/Makefile.mt6735
 else
 
-ifneq (,$(filter $(CONFIG_ARCH_MT6580), y))
-include $(srctree)/drivers/misc/mediatek/Makefile.mt6580
-else
-
-
 ifeq ($(CONFIG_MTK_L2C_SHARE),y)
 obj-y   += l2c_share/
 endif
@@ -29,7 +24,7 @@ ifneq ($(CONFIG_MTK_GIC),y)
 obj-y   += irq/
 endif
 
-obj-$(CONFIG_MTK_CPU_STRESS)	+= cpu_stress/
+#obj-$(CONFIG_MTK_CPU_STRESS)	+= cpu_stress/
 obj-$(CONFIG_MTK_LASTPC)	    += lastpc/
 obj-$(CONFIG_MTK_DBG_DUMP) += dbg_dump/
 
@@ -259,7 +254,7 @@ obj-y	+= selinux_warning/
 # MTK PASR SW flow
 obj-$(CONFIG_MTKPASR)	+= mtkpasr/
 
-obj-$(CONFIG_MTK_TC1_FEATURE)	+= tc1_interface/
+#obj-$(CONFIG_MTK_TC1_FEATURE)	+= tc1_interface/
 
 obj-$(CONFIG_MTK_SWITCH_TX_POWER) += sw_tx_power/
 
@@ -271,7 +266,7 @@ obj-$(CONFIG_MTK_SWITCH_TX_POWER) += sw_tx_power/
 obj-$(CONFIG_MTK_BTIF)	+= btif/
 obj-$(CONFIG_MTK_POWER_GS)	+= power_gs/
 obj-$(CONFIG_MTK_VIDEO) += video/
-obj-$(CONFIG_MTK_AEE_MRDUMP)	+= mrdump/
+#obj-$(CONFIG_MTK_AEE_MRDUMP)	+= mrdump/
 obj-$(CONFIG_MTK_WMT_CCCI)	+= wmt_ccci/
 obj-$(CONFIG_MTK_VCOREFS)	+= vcorefs/
 
