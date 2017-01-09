@@ -3924,7 +3924,7 @@ static int __init hmp_cpu_mask_setup(void)
 		 * Fastest domain is at head of list. Thus, the fast-cpu mask should
 		 * be initialized first, followed by slow-cpu mask.
 		 */
-#if defined(CONFIG_SCHED_HMP_ENHANCEMENT) defined(CONFIG_MT_RT_SCHED)
+#if defined(CONFIG_SCHED_HMP_ENHANCEMENT) || defined(CONFIG_MT_RT_SCHED)
 		if(cpumask_empty(&hmp_fast_cpu_mask)) {
 			cpumask_copy(&hmp_fast_cpu_mask,&domain->possible_cpus);
 			for_each_cpu(cpu, &hmp_fast_cpu_mask)

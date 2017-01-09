@@ -1,6 +1,6 @@
 // dummy implement for custom API,
 #include <linux/sched.h>
-#include <emd_ctl.h>
+#include "emd_ctl.h"
 
 void cm_gpio_setup(void)
 {
